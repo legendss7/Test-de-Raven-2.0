@@ -20,6 +20,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 import streamlit as st
 import plotly.graph_objects as go
+try:
+    import streamlit.components.v1 as components
+except Exception:
+    components = None
 
 try:
     from fpdf import FPDF
@@ -348,17 +352,26 @@ def top_progress():
 
 
 def scroll_to_top():
-    # Fuerza el scroll al top tras avanzar
+    # Fuerza el scroll al top tras avanzar (compatibilidad Streamlit >=1.31)
     js_code = f"""
         <script>
-        setTimeout(function(){{
-            var topEl = window.parent.document.querySelector('[data-testid="stAppViewContainer"]');
-            if(topEl) topEl.scrollTo({{top:0, behavior:'auto'}});
-            window.parent.scrollTo({{top:0, behavior:'auto'}});
-        }}, 120);
+        setTimeout(function(){
+            try {
+                var container = window.parent.document.querySelector('[data-testid="stAppViewContainer"]');
+                if (container) { container.scrollTo({top:0, behavior:'auto'}); }
+                window.parent.scrollTo({top:0, behavior:'auto'});
+            } catch(e) {}
+        }, 120);
         </script>
     """
-    st.components.v1.html(js_code, height=0, key=f"scroll_{st.session_state.scroll_key}")
+    try:
+        if components is not None:
+            components.html(js_code, height=1, scrolling=False, key=f"scroll_{st.session_state.get('scroll_key',0)}")
+        else:
+            st.components.v1.html(js_code, height=1, scrolling=False, key=f"scroll_{st.session_state.get('scroll_key',0)}")
+    except Exception:
+        # Si el componente falla en algún entorno (p.ej. Streamlit Cloud), no interrumpir el flujo.
+        pass
 
 
 # --------------- PÁGINAS ------------------------------------
