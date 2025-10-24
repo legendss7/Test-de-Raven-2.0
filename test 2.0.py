@@ -353,7 +353,7 @@ def top_progress():
 
 def scroll_to_top():
     # Fuerza el scroll al top tras avanzar (compatibilidad Streamlit >=1.31)
-    js_code = f"""
+    js_code = """
         <script>
         setTimeout(function(){
             try {
