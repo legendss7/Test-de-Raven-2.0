@@ -324,12 +324,12 @@ class State:
         st.session_state.q_idx += 1
         st.session_state.timer = time.time()
         st.session_state.scroll_key += 1
-        st.experimental_rerun()
+        st.rerun()
 
     @staticmethod
     def to_results():
         st.session_state.stage = "resultados"
-        st.experimental_rerun()
+        st.rerun()
 
 # --------------- WIDGETS DE UI ------------------------------
 
@@ -390,7 +390,7 @@ def page_inicio():
                 if st.button("🚀 Comenzar la evaluación", use_container_width=True, type="primary"):
                     st.session_state.stage = "test"
                     st.session_state.timer = time.time()
-                    st.experimental_rerun()
+                    st.rerun()
                 st.markdown("</div>", unsafe_allow_html=True)
 
         with colB:
@@ -719,7 +719,7 @@ def page_resultados():
             st.session_state.q_idx = 0
             st.session_state.answers = {}
             st.session_state.stage = "inicio"
-            st.experimental_rerun()
+            st.rerun()
 
     with coly:
         pdf_bytes = build_pdf_bytes(st.session_state.user, scores, st.session_state.answers, st.session_state.start_ts)
