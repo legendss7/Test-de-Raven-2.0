@@ -541,8 +541,8 @@ def narrative_from_score(s):
     elif pct >= 0.50:
         level = "Medio"
         summary = (
-            "Desempeño **promedio**: capacidad adecuada para identificar patrones,
-            con oportunidades de mejora en rapidez y/o consistencia en ítems difíciles."
+            "Desempeño **promedio**: capacidad adecuada para identificar patrones, "
+            "con oportunidades de mejora en rapidez y/o consistencia en ítems difíciles."
         )
         recs = [
             "Entrenar con rompecabezas visuales y ejercicios de series.",
